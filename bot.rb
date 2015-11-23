@@ -48,7 +48,7 @@ bot = Cinch::Bot.new do
     # IRC Server Password
     # c.password = "password"
     # Channel name & password
-    c.channels = ['#3lab-news']
+    c.channels = ['#3lab', '#3lab-news']
     # bot nick name and real name
     c.nick = 'm4ciu5_97'
     c.realname = 'macius'
