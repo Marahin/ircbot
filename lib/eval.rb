@@ -1,23 +1,16 @@
-require 'cinch'
-
 class AdminEval
   include Cinch::Plugin
 
   match /eval (.+)/, method: :admin_eval
 
-  def check_user(user)
-    user.refresh # be sure to refresh the data, or someone could steal
-    # the nick
 
-    puts "admins include? #{ user.authname }"
-    puts $admins.include?(user.authname )
-    $admins.include?( user.authname )
-  end
 
   def admin_eval(m, args)
-    return unless check_user( m.user )
+    return unless ( Object.const_defined?('Admins') ? ( Admins.check_user( m.user ) ) : ( true ))
     val = nil
     t = Thread.new{
+
+
       val = eval( args )
     }
     if t.join
@@ -31,4 +24,5 @@ class AdminEval
       m.reply "#{ $admins.join(", ")} - PLEASE HELP."
     end
   end
+
 end

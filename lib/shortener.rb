@@ -1,6 +1,5 @@
 #encoding: utf-8
 require 'open-uri'
-require 'cinch'
 
 class Gimbus
   include Cinch::Plugin
