@@ -10,7 +10,9 @@ class Admins
 
   def self.check_user( user )
     if not $admins.nil?
-      $admins.include?( user.authname ) ? ( true ) : ( false )
+      puts "Checking if #{ user.authname } exists in admins array... #{ $admins }"
+      puts "#{ $admins.include?( user.authname ) }"
+      $admins.include?( user.authname )
     else
       false
     end
