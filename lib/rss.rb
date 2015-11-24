@@ -23,8 +23,18 @@ class Rss
           :last_entry_id => Time.now
       },
       {
-          :name => 'niebezpiecznik',
+          :name => 'niebezpiecznik.pl',
           :link => 'http://feeds.feedburner.com/niebezpiecznik/',
+          :last_entry_id => Time.now
+      },
+      {
+          :name => 'hackerNews',
+          :link => 'http://hnrss.org/newest/',
+          :last_entry_id => Time.now
+      },
+      {
+          :name => '#unknownews',
+          :link => 'http://feeds.feedburner.com/unknowNews/',
           :last_entry_id => Time.now
       },
       {
