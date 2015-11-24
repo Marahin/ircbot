@@ -27,6 +27,7 @@ class Rss
           :link => 'http://feeds.feedburner.com/niebezpiecznik/',
           :last_entry_id => Time.now
       },
+=begin
       {
           :name => 'hackerNews',
           :link => 'http://hnrss.org/newest/',
@@ -37,6 +38,7 @@ class Rss
           :link => 'http://feeds.feedburner.com/unknowNews/',
           :last_entry_id => Time.now
       },
+=end
       {
           :name => 'marahin.pl',
           :link => 'http://marahin.pl/?feed=rss2',
