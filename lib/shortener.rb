@@ -27,7 +27,7 @@ class Gimbus
   private
   
   def get_page_title( page_address )
-    page_obj = Mechanize.new( page_address )
+    page_obj = Mechanize.new.get( page_address )
     if page_obj.respond_to?(:title)
       # return title (if we can access it)
       page_obj.title
