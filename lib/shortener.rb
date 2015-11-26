@@ -18,7 +18,7 @@ class Gimbus
 
   def listen(m)
     urls = URI.extract(m.message, ["http", "https", "www."] )
-    short_urls = urls.map { |url| Gimbus.shorten(url) + " - " + get_page_title( url ).gsub!(/\n/, " ").gsub!(/\r/, " ").splice!(0..10) + "..." }.compact
+    short_urls = urls.map { |url| Gimbus.shorten(url) + " - " + get_page_title( url ).gsub(/\n/, " ").gsub(/\r/, " ").splice(0..10) + "..." }.compact
     unless short_urls.empty?
       m.reply "➥ #{short_urls.join(", ")}"
     end
