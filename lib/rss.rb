@@ -51,19 +51,26 @@ class Rss
   match /rss next/, method: :print_last_entry
   match /rss start/, method: :start_announcing
   match /rss stop/, method: :stop_announcing
+  match /rss raport/, method: :raport
 
-  timer 30, method: :announce_news_to_channel, threaded: true
+  timer (60+(300/(@@news.length+1))), method: :announce_news_to_channel, threaded: true
   timer 300, method: :refresh_feed, threaded: true
 
   # we want to disable announcing by default, so it is being started by a user
   @@announce = false
   @@news = []
+  @@last_time_updated = Time.now
 
   def start_announcing(m)
     @@announce = true
     m.reply 'I will announce news from now on.'
   end
-
+  
+  
+  def raport(m)
+    m.reply "feeds: #{ $feeds.length }, queue: #{ @@news.length } news awaiting. Last time updated: #{ @@last_time_updated }"
+  end
+  
   def stop_announcing(m)
     @@announce = false
     m.reply 'I will not announce news for now.'
@@ -75,15 +82,14 @@ class Rss
   end
 
   def print_last_entry(m)
-    if @@news
+    if not @@news.empty?
       last_entry = @@news.last
       m.reply("[#{ last_entry[:source] }] #{ last_entry[:title] } - #{last_entry[:author]}: #{ last_entry[:content]} { #{ last_entry[:url]} }")
+      @@news.pop()
+      @@news.shuffle!
     else
       m.reply('There are no news at this moment.')
     end
-    @@news.pop()
-
-    @@news.shuffle!
   end
 
   private
@@ -105,11 +111,9 @@ class Rss
                         })
         end
       end
-      puts "feed #{ feed[:name] }"
-      puts "Old NEWEST url: #{ feed[:last_entry_id] }"
       feed[:last_entry_id] = val.entries.first.url
-      puts "New NEWEST url: #{ val.entries.first.url }"
       @@news += new_news
+      @@last_time_updated = Time.now
     end
   end
 
