@@ -57,6 +57,7 @@ class Rss
 
   # we want to disable announcing by default, so it is being started by a user
   @@announce = false
+  @@news = []
 
   def start_announcing(m)
     @@announce = true
@@ -88,11 +89,10 @@ class Rss
   private
 
   def refresh_feed
-    @@news = []
     $feeds.multithreaded_each do |feed|
       new_news = []
       val = Feedjira::Feed.fetch_and_parse(feed[:link])
-      val.entries.reverse!.each do |entry|
+      val.entries.each do |entry|
         if entry.url == feed[:last_entry_id]
           break;
         else
@@ -105,7 +105,10 @@ class Rss
                         })
         end
       end
-      feed[:last_entry_id] = val.entries.reverse!.first.url
+      puts "feed #{ feed[:name] }"
+      puts "Old NEWEST url: #{ feed[:last_entry_id] }"
+      feed[:last_entry_id] = val.entries.first.url
+      puts "New NEWEST url: #{ val.entries.first.url }"
       @@news += new_news
     end
   end
