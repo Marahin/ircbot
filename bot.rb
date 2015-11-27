@@ -40,7 +40,9 @@ end
 bot = Cinch::Bot.new do
   configure do |c|
     # IRC Server IP
-    c.server = 'irc.freenode.net'
+    # c.server = 'irc.freenode.net'
+    # due to freenodes loadbalancing being shit, setting it to static IP
+    c.server = '91.217.189.42'
     # If you use SSL, write like this
     c.ssl.use = false
     # IRC Server port
