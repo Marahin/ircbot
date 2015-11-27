@@ -20,17 +20,17 @@ class Rss
       {
           :name => 'z3s.pl',
           :link => 'http://zaufanatrzeciastrona.pl/feed/',
-          :last_entry_id => Time.now
+          :last_entry_id => nil
       },
       {
           :name => 'niebezpiecznik',
           :link => 'http://feeds.feedburner.com/niebezpiecznik/',
-          :last_entry_id => Time.now
+          :last_entry_id => nil
       },
       {
           :name => 'marahin.pl',
           :link => 'http://marahin.pl/?feed=rss2',
-          :last_entry_id => Time.now
+          :last_entry_id => nil
       }
   ].extend(MultithreadedEach)
   #end of feeds
@@ -40,8 +40,8 @@ class Rss
   match /rss start/, method: :start_announcing
   match /rss stop/, method: :stop_announcing
 
-  timer 300, method: :announce_news_to_channel, threaded: true
-  timer 1800, method: :refresh_feed, threaded: true
+  timer 30, method: :announce_news_to_channel, threaded: true
+  timer 300, method: :refresh_feed, threaded: true
 
   # we want to disable announcing by default, so it is being started by a user
   @@announce = false
@@ -81,7 +81,7 @@ class Rss
       new_news = []
       val = Feedjira::Feed.fetch_and_parse(feed[:link])
       val.entries.reverse!.each do |entry|
-        if entry.entry_id == feed[:last_entry_id]
+        if entry.url == feed[:last_entry_id]
           break;
         else
           new_news.push({
@@ -93,7 +93,7 @@ class Rss
                         })
         end
       end
-      feed[:last_entry_id] = val.entries.reverse!.first.entry_id
+      feed[:last_entry_id] = val.entries.reverse!.first.url
       @@news += new_news
     end
   end
