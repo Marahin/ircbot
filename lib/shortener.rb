@@ -13,11 +13,11 @@ class Gimbus
       if url
         return "http://gimb.us/#{url[1..url.length]}"
       end
-      rescue OpenURI::HTTPError
-        nil
     else
-      return url
+      return url    
     end
+    rescue OpenURI::HTTPError
+      nil
   end
 
   def listen(m)
