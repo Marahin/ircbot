@@ -10,11 +10,11 @@ class Gimbus
   def self.shorten(url)
     unless url.include?( "http://gimb.us/" )
       url = open("http://gimb.us/?url=#{URI.escape(url)}").read()
-      rescue OpenURI::HTTPError
-        nil
       if url
         return "http://gimb.us/#{url[1..url.length]}"
       end
+      rescue OpenURI::HTTPError
+        nil
     else
       return url
     end

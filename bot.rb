@@ -40,7 +40,9 @@ end
 bot = Cinch::Bot.new do
   configure do |c|
     # IRC Server IP
-    c.server = 'irc.freenode.net'
+    # c.server = 'irc.freenode.net'
+    # due to freenodes loadbalancing being shit, setting it to static IP
+    c.server = '91.217.189.42'
     # If you use SSL, write like this
     c.ssl.use = false
     # IRC Server port
@@ -59,11 +61,12 @@ bot = Cinch::Bot.new do
   end
 
   on :channel, /reload (.+)/ do |m, module_name|
-    return unless Object.const_defined?('Admins') ? ( Admins.check_user( m.user ) ) : ( true )
-    if load "lib/#{ module_name }.rb"
-        m.reply "➥ #{ m.user.nick }: successfully reloaded #{ module_name }."
-    else
-        m.reply "➥ #{ m.user.nick }: could not reload #{ module_name }."
+    unless Object.const_defined?('Admins') ? ( Admins.check_user( m.user ) ) : ( true )
+        if load "lib/#{ module_name }.rb"
+            m.reply "➥ #{ m.user.nick }: successfully reloaded #{ module_name }."
+        else
+            m.reply "➥ #{ m.user.nick }: could not reload #{ module_name }."
+        end
     end
   end
 end
