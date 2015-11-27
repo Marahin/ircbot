@@ -63,15 +63,14 @@ class Rss
   end
 
   def print_last_entry(m)
-    if @@news
+    if not @@news.empty?
       last_entry = @@news.last
       m.reply("[#{ last_entry[:source] }] #{ last_entry[:title] } - #{last_entry[:author]}: #{ last_entry[:content]} { #{ last_entry[:url]} }")
+      @@news.pop()
+      @@news.shuffle!
     else
       m.reply('There are no news at this moment.')
     end
-    @@news.pop()
-
-    @@news.shuffle!
   end
 
   private
