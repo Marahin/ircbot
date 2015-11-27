@@ -46,14 +46,13 @@ class Rss
 
   # we want to disable announcing by default, so it is being started by a user
   @@announce = false
-  @@news = []
+  @@news = Array.new
   @@last_time_updated = Time.now
 
   def start_announcing(m)
     @@announce = true
     m.reply 'I will announce news from now on.'
   end
-  
   
   def raport(m)
     m.reply "feeds: #{ $feeds.length }, queue: #{ @@news.length } news awaiting. Last time updated: #{ @@last_time_updated }"
