@@ -47,20 +47,27 @@ class Rss
   ].extend(MultithreadedEach)
   #end of feeds
 
+  # we want to disable announcing by default, so it is being started by a user
+  @@announce = false
+  # initializng news stack
+  @@news = Array.new
+  # last_time feed was updated (set by refresh_feed)
+  @@last_time_updated = Time.now
+
+
+  ## ROUTES ##
   match /rss force/, method: :force_refresh_feed
   match /rss next/, method: :print_last_entry
   match /rss start/, method: :start_announcing
   match /rss stop/, method: :stop_announcing
   match /rss raport/, method: :raport
 
+  ## TIMERS (recursive functions delayed by time)
   timer (60+(300/(@@news.length+1))), method: :announce_news_to_channel, threaded: true
   timer 300, method: :refresh_feed, threaded: true
 
-  # we want to disable announcing by default, so it is being started by a user
-  @@announce = false
-  @@news = Array.new
-  @@last_time_updated = Time.now
-
+  ## METHODS ##
+  
   def start_announcing(m)
     @@announce = true
     m.reply 'I will announce news from now on.'
