@@ -59,11 +59,12 @@ bot = Cinch::Bot.new do
   end
 
   on :channel, /reload (.+)/ do |m, module_name|
-    return unless Object.const_defined?('Admins') ? ( Admins.check_user( m.user ) ) : ( true )
-    if load "lib/#{ module_name }.rb"
-        m.reply "➥ #{ m.user.nick }: successfully reloaded #{ module_name }."
-    else
-        m.reply "➥ #{ m.user.nick }: could not reload #{ module_name }."
+    unless Object.const_defined?('Admins') ? ( Admins.check_user( m.user ) ) : ( true )
+        if load "lib/#{ module_name }.rb"
+            m.reply "➥ #{ m.user.nick }: successfully reloaded #{ module_name }."
+        else
+            m.reply "➥ #{ m.user.nick }: could not reload #{ module_name }."
+        end
     end
   end
 end
