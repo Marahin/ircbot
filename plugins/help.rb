@@ -58,7 +58,7 @@ def execute(msg, query)
   end
 
   response << "Sorry, nothing found." if response.empty?
-  msg.reply(response)
+  msg.reply($RESULT_CHARACTER+response)
 end
 
 # Called on startup. This method iterates the list of registered plugins
