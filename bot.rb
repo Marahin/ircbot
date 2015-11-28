@@ -40,7 +40,12 @@ require 'cinch'
   end
 
   helpers do
+    def auth_system_included?
+      Object.const_defined?( 'Admins' )
+    end
+
     def hook_plugin(m, plugin)
+      auth_system_included? ? ( Admins.check_user( m.user ) ): (return false)
       real_plugin = $plugins.select{ |arr_plug| arr_plug[:name] == plugin }
       real_plugin = real_plugin.length > 0 ? ( real_plugin[0] ) : ( nil )
       if real_plugin.nil?
@@ -74,6 +79,7 @@ require 'cinch'
     end
 
     def unhook_plugin(m, plugin )
+      auth_system_included? ? ( Admins.check_user( m.user ) ): (return false)
       begin
         plugin_class = Object.const_get(plugin)
       rescue NameError
@@ -100,7 +106,9 @@ require 'cinch'
       m.reply "#{ $RESULT_CHARACTER }Successfully unloaded #{plugin}"
 
     end
+
     def reload_plugin(m, plugin )
+      auth_system_included? ? ( Admins.check_user( m.user ) ): (return false)
       if unhook_plugin(m, plugin)
         hook_plugin(m, plugin)
       end
