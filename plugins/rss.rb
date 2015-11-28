@@ -57,7 +57,8 @@ class Rss
   end
   
   def raport(m)
-    m.reply "#{ $RESULT_CHARACTER } feeds: #{ $feeds.length }, queue: #{ @@news.length } news awaiting. Last time updated: #{ @@last_time_updated }"
+    fetch_news_stack_from_db
+    m.reply "#{ $RESULT_CHARACTER } feeds: #{ $feeds.length }, queue: #{ @@news.count } news awaiting. Last time updated: #{ @@last_time_updated }"
   end
   
   def stop_announcing(m)
@@ -106,7 +107,9 @@ class Rss
         end
       end
       feed[:last_entry_id] = val.entries.first.url
-      @@news.push( new_news )
+      $db.use('feeds').set("#{ feed[:name] }#last_url", feed[:last_entry_id])
+      @@news += new_news
+      $db.use('feeds').set('news', @@news.to_json)
       @@last_time_updated = Time.now
     end
   end
@@ -148,6 +151,15 @@ class Rss
   end
 
   def fetch_news_stack_from_db
+    @@news = $db.use('feeds').get('news')
+    if @@news.class == String
+      if @@news != '[]'
+        @@news = JSON.parse( @@news )
+      else
+        @@news = []
+      end
+    else
+      @@news = []
+    end    
   end
-
 end
