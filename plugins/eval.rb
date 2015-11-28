@@ -3,8 +3,7 @@ class AdminEval
   
   set :help, <<-EOF
 eval <code>
-  tells cinch to process some 
-  <code> and return a value
+  tells cinch to process some <code> and return a value
 EOF
   
   match /eval (.+)/
