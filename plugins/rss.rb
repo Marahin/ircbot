@@ -4,7 +4,19 @@ require 'json'
 
 class Rss
   include Cinch::Plugin
-
+  
+  set :help, <<-HELP
+  rss force
+    forces the bot to refresh all the feeds and gather new posts.
+  rss start
+    allows bot to start announcing news
+  rss stop
+    forbids bot from announcing news
+  rss next
+    asks for another new post
+  rss report
+    prints out some statistics about the feeds
+  HELP
   $feeds = [
       {
           :name => 'z3s.pl',
@@ -43,7 +55,7 @@ class Rss
   match /rss next/, method: :print_last_entry
   match /rss start/, method: :start_announcing
   match /rss stop/, method: :stop_announcing
-  match /rss raport/, method: :raport
+  match /rss report/, method: :raport
 
   ## TIMERS (recursive functions delayed by time)
   timer (60+(300/(@@news.length+1))), method: :announce_news_to_channel, threaded: true
@@ -52,6 +64,7 @@ class Rss
   ## METHODS ##
   
   def start_announcing(m)
+    return unless ( Object.const_defined?('Admins') ? ( Admins.check_user( m.user ) ) : ( false ))
     @@announce = true
     m.reply 'I will announce news from now on.'
   end
@@ -61,12 +74,14 @@ class Rss
     m.reply "#{ $RESULT_CHARACTER } feeds: #{ $feeds.length }, queue: #{ @@news.count } news awaiting. Last time updated: #{ @@last_time_updated }"
   end
   
-  def stop_announcing(m)
+  def stop_announcing(m)    
+    return unless ( Object.const_defined?('Admins') ? ( Admins.check_user( m.user ) ) : ( false ))
     @@announce = false
     m.reply "#{ $RESULT_CHARACTER } I will not announce news for now."
   end
 
-  def force_refresh_feed(m)
+  def force_refresh_feed(m)    
+    return unless ( Object.const_defined?('Admins') ? ( Admins.check_user( m.user ) ) : ( false ))
     m.reply "#{ $RESULT_CHARACTER } Refreshing feed just for you, #{ m.user.nick }."
     refresh_feed
   end

@@ -10,6 +10,8 @@
   :user: 'macius'
 
 :plugins:
+  - :file: 'help.rb'
+    :name: 'Help'
   - :file: 'admins.rb'
     :name: 'Admins'
   - :file: 'eval.rb'
@@ -23,4 +25,4 @@
 :plugins_path: 'plugins/'
 :plugins_prefix: '^!'
 
-:message_prefix: '#=> '
+:message_prefix: '→ '

@@ -1,8 +1,15 @@
 class AdminEval
   include Cinch::Plugin
+  
+  set :help, <<-HELP
+    * Only usable by admins, if there are any.
+    eval <code>
+      Evaluates Ruby code and returns the value.
+  HELP
+  
   match /eval (.+)/
   def execute(m, args)
-    return unless ( Object.const_defined?('Admins') ? ( Admins.check_user( m.user ) ) : ( true ))
+    return unless ( Object.const_defined?('Admins') ? ( Admins.check_user( m.user ) ) : ( false ))
     val = nil
     t = Thread.new{
       val = eval( args )

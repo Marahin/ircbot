@@ -4,7 +4,9 @@ require 'mechanize'
 
 class Gimbus
   include Cinch::Plugin
-
+  set :help, <<-HELP
+  This is a non-interactive plugin that uses Gimb.us API to automagically shorten sent links and to read page title.
+  HELP
   listen_to :channel
 
   def self.shorten(url)
@@ -22,7 +24,7 @@ class Gimbus
 
   def listen(m)
     urls = URI.extract(m.message, ["http", "https", "www."] )
-    short_urls = urls.map { |url| Gimbus.shorten(url) + " - " + get_page_title( url ).gsub(/\n/, " ").gsub(/\r/, " ").slice(0..67) + "..." }.compact
+    short_urls = urls.map { |url| Gimbus.shorten(url) + " - " + get_page_title( url ).gsub(/\n/, " ").gsub(/\r/, " ").slice(0..97) + "..." }.compact
     unless short_urls.empty?
       m.reply "#{ $RESULT_CHARACTER } #{short_urls.join(", ")}"
     end
