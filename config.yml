@@ -1,0 +1,26 @@
+---
+:bot:
+  :server: '91.217.189.42'
+  :use_ssl: false
+  :port: '6667'
+  :channels:
+  - '#3lab-news'
+  :nick: 'm4ciu5_97'
+  :realname: 'http://marahin.pl/'
+  :user: 'macius'
+
+:plugins:
+  - :file: 'admins.rb'
+    :name: 'Admins'
+  - :file: 'eval.rb'
+    :name: 'AdminEval'
+  - :file: 'joinpart.rb'
+    :name: 'JoinPart'
+  - :file: 'rss.rb'
+    :name: 'Rss'
+  - :file: 'shortener.rb'
+    :name: 'Gimbus'
+:plugins_path: 'plugins/'
+:plugins_prefix: '^!'
+
+:message_prefix: '#=> '
