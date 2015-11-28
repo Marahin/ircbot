@@ -74,7 +74,7 @@ class Rss
   end
   
   def raport(m)
-    m.reply "feeds: #{ $feeds.length }, queue: #{ @@news.length } news awaiting. Last time updated: #{ @@last_time_updated }"
+    m.reply "#{ $RESULT_CHARACTER } feeds: #{ $feeds.length }, queue: #{ @@news.length } news awaiting. Last time updated: #{ @@last_time_updated }"
   end
   
   def stop_announcing(m)
@@ -83,20 +83,21 @@ class Rss
   end
 
   def force_refresh_feed(m)
-    m.reply "Refreshing feed just for you, #{ m.user.nick }."
+    m.reply "#{ $RESULT_CHARACTER } Refreshing feed just for you, #{ m.user.nick }."
     refresh_feed
   end
 
   def print_last_entry(m)
     if not @@news.empty?
       last_entry = @@news.last
-      m.reply("[#{ last_entry[:source] }] #{ last_entry[:title] } - #{last_entry[:author]}: #{ last_entry[:content]} { #{ last_entry[:url]} }")
+      m.reply("#{ $RESULT_CHARACTER } [#{ last_entry[:source] }] #{ last_entry[:title] } - #{last_entry[:author]}: #{ last_entry[:content]} { #{ last_entry[:url]} }")
       @@news.pop()
       @@news.shuffle!
     else
       m.reply('There are no news at this moment.')
     end
   end
+
 
   private
 

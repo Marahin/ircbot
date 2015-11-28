@@ -24,7 +24,7 @@ class Gimbus
     urls = URI.extract(m.message, ["http", "https", "www."] )
     short_urls = urls.map { |url| Gimbus.shorten(url) + " - " + get_page_title( url ).gsub(/\n/, " ").gsub(/\r/, " ").slice(0..67) + "..." }.compact
     unless short_urls.empty?
-      m.reply "➥ #{short_urls.join(", ")}"
+      m.reply "#{ $RESULT_CHARACTER } #{short_urls.join(", ")}"
     end
   end
   
