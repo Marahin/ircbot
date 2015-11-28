@@ -8,3 +8,6 @@ gem 'feedjira'
 
 #reading link title
 gem 'mechanize'
+
+# database
+gem 'sqlite3'

@@ -2,9 +2,9 @@
 #encoding: utf-8
 ROOT_PATH = File.expand_path(File.dirname(__FILE__))
 require 'cinch'
+require "#{ ROOT_PATH }/lib/setup_environment"
 
 @bot = Cinch::Bot.new do
-  require "#{ ROOT_PATH }/lib/setup_environment"
   ## BOT SETUP ##
   configure do |c|
     # IRC Server IP
