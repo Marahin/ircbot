@@ -7,13 +7,13 @@ class Rss
   
   set :help, <<-EOF
 rss start
-  (ADMIN) tells cinch to start
+  tells cinch to start
   announcing news feeds.
 rss stop
-  (ADMIN) tells cinch to stop 
+  tells cinch to stop 
   announcing news feeds.
 rss force
-  (ADMIN) tells cinch to force-
+  tells cinch to force-
   refresh the newsfeeds.
 rss next
   tells cinch to drop some cool
@@ -122,7 +122,7 @@ EOF
                             :title => entry.title,
                             :author => entry.author,
                             :url => (Object.const_defined?('Gimbus') ? (Gimbus.shorten(entry.url)) : (entry.url)),
-                            :content => remove_html_tags(entry.summary.to_s || entry.content.to_s).slice!(0, 17) + '...'
+                            :content => remove_html_tags(entry.summary.to_s || entry.content.to_s).slice!(0, 40) + '...'
                         })
         end
       end
