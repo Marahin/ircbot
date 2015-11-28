@@ -5,18 +5,23 @@ require 'json'
 class Rss
   include Cinch::Plugin
   
-  set :help, <<-HELP
-  rss force
-    forces the bot to refresh all the feeds and gather new posts.
-  rss start
-    allows bot to start announcing news
-  rss stop
-    forbids bot from announcing news
-  rss next
-    asks for another new post
-  rss report
-    prints out some statistics about the feeds
-  HELP
+  set :help, <<-EOF
+rss start
+  (ADMIN) tells cinch to start
+  announcing news feeds.
+rss stop
+  (ADMIN) tells cinch to stop 
+  announcing news feeds.
+rss force
+  (ADMIN) tells cinch to force-
+  refresh the newsfeeds.
+rss next
+  tells cinch to drop some cool
+  news.
+rss report
+  tells cinch to drop some stats
+EOF
+
   $feeds = [
       {
           :name => 'z3s.pl',

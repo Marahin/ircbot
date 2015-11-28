@@ -1,13 +1,11 @@
 class JoinPart
   include Cinch::Plugin
-  set :help, <<-HELP
-  * Only usable by admins, if there are any.
-  join (channel)
-    tells the bot to join the (channel)
-  part (channel)
-    tells the bot to leave the (channel)
-  
-  HELP
+  set :help, <<-EOF
+join (channel)
+  (ADMIN) tells cinch to join a (channel)
+part (channel)
+  (ADMIN) tells cinch to leave a (channel)
+EOF
   match /join (.+)/, method: :join
   match /part(?: (.+))?/, method: :part
 

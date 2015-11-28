@@ -1,11 +1,11 @@
 class AdminEval
   include Cinch::Plugin
   
-  set :help, <<-HELP
-    * Only usable by admins, if there are any.
-    eval <code>
-      Evaluates Ruby code and returns the value.
-  HELP
+  set :help, <<-EOF
+eval <code>
+  (ADMIN) tells cinch to process some 
+  <code> and return a value
+EOF
   
   match /eval (.+)/
   def execute(m, args)
