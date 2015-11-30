@@ -37,7 +37,7 @@ end
 # database class
 class Storage
   def initialize
-    @db = SQLite3::Database.new( 'db/bot.db' )
+    @db = SQLite3::Database.open( 'db/bot.db' )
   end
   def create(table)
     begin
@@ -47,7 +47,7 @@ class Storage
       value varchar(1000))
     } )
     rescue SQLite3::SQLException => details
-      # puts details
+      puts details
     end
   end
   def use(table)
