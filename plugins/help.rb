@@ -31,7 +31,7 @@ class Help
     if query.empty?
       response << @intro_message.strip << "\n"
       response << "Available plugins:\n"
-      response << bot.config.plugins.plugins.map{|plugin| format_plugin_name(plugin)}.join(", ")
+      response << @bot.config.plugins.plugins.map{|plugin| format_plugin_name(plugin)}.join(", ")
       response << "\n'help <plugin>' for help on a specific plugin."
 
     # Help for a specific plugin
@@ -73,12 +73,12 @@ class Help
     @help = {}
 
     if config[:intro]
-      @intro_message = config[:intro] % bot.nick
+      @intro_message = config[:intro] % @bot.nick
     else
-      @intro_message = "#{bot.nick} at your service."
+      @intro_message = "#{@bot.nick} at your service."
     end
 
-    bot.config.plugins.plugins.each do |plugin|
+    @bot.config.plugins.plugins.each do |plugin|
       @help[plugin] = Hash.new{|h, k| h[k] = ""}
       next unless plugin.help # Some plugins don't provide help
       current_command = "<unparsable content>" # For not properly formatted help strings
@@ -87,7 +87,7 @@ class Help
         if line =~ /^\s+/
           @help[plugin][current_command] << line.strip
         else
-          current_command = line.strip.gsub(/cinch/i, bot.name)
+          current_command = line.strip.gsub(/cinch/i, @bot.name)
         end
       end
     end
