@@ -34,9 +34,9 @@ EOF
           :last_entry_id => $db.use('feeds').get('niebezpiecznik.pl#last_url')
       },
       {
-          :name => 'hackerNews',
-          :link => 'http://hnrss.org/newest',
-          :last_entry_id => $db.use('feeds').get('hackerNews#last_url')
+          :name => 'hs-waw',
+          :link => 'https://blog.hackerspace.pl/feed/',
+          :last_entry_id => $db.use('feeds').get('hs-waw#last_url')
       },
       {
           :name => 'marahin.pl',
