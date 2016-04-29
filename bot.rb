@@ -39,6 +39,8 @@ require "#{ ROOT_PATH }/lib/setup_environment"
     reload_plugin(m, plugin)
   end
 
+
+
   helpers do
     def hook_plugin(m, plugin)
       return unless ( Object.const_defined?('Admins') ? ( Admins.check_user( m.user ) ) : ( true ))
@@ -111,6 +113,10 @@ require "#{ ROOT_PATH }/lib/setup_environment"
     end
   end
 end
+
+#help obj
+
+HelpObj.new("macius", "generic bot description")
 
 #macius.loggers.level = :log
 @bot.start

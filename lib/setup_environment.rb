@@ -1,6 +1,5 @@
 require 'yaml'
 require 'rubygems'
-require 'sqlite3'
 
 
 
@@ -10,7 +9,6 @@ require 'sqlite3'
 
 def setup_variables
   $RESULT_CHARACTER = $config[:message_prefix] || '#=>'
-  $db = Storage.new
 end
 
 def setup_config
@@ -35,6 +33,7 @@ def setup_plugins
 end
 
 # database class
+=begin
 class Storage
   def initialize
     @db = SQLite3::Database.open( 'db/bot.db' )
@@ -71,7 +70,7 @@ class Storage
     } % [@table, key, val ] )
   end
 end
-
+=end
 #module for threaded .each method
 module MultithreadedEach
   def multithreaded_each
@@ -79,6 +78,33 @@ module MultithreadedEach
       threads << Thread.new { yield item }
     end.each { |thread| thread.join }
     self
+  end
+end
+
+# array of plugins that support HelpObj
+
+# help class
+
+class HelpObj
+  def initialize(name, description)
+    @name = name
+    @description = description
+    @help ||= {}
+    @help.merge!({"#{name}" => {"descr" => "#{description}", "obj" => self } })
+  end
+
+  def generic_descr
+    return "#{@name}: #{@description}."
+  end
+
+  def commands
+  end
+
+  def add_command(syntax, descr)
+    #@commands.merge!()
+  end
+
+  def print_commands
   end
 end
 

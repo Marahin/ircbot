@@ -1,10 +1,6 @@
 class Admins
   include Cinch::Plugin
   
-  set :help, <<-EOF
-admins
-  prints out who has admin privileges
-EOF
 
   $admins = ['marahin']
   match /admins/

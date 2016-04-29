@@ -1,11 +1,6 @@
 class AdminEval
   include Cinch::Plugin
   
-  set :help, <<-EOF
-eval <code>
-  tells cinch to process some <code> and return a value
-EOF
-  
   match /eval (.+)/
   def execute(m, args)
     return unless ( Object.const_defined?('Admins') ? ( Admins.check_user( m.user ) ) : ( false ))

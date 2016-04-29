@@ -4,12 +4,6 @@ require 'mechanize'
 
 class Gimbus
   include Cinch::Plugin
-  
-  set :help, <<-EOF
-help gimbus
-  This is a non-interactive plugin, which shortens sent links
-  and also reads the link's title.
-EOF
 
   listen_to :channel
 
@@ -20,7 +14,7 @@ EOF
         return "http://gimb.us/#{url[1..url.length]}"
       end
     else
-      return url    
+      return url
     end
     rescue OpenURI::HTTPError
       nil
@@ -33,9 +27,9 @@ EOF
       m.reply "#{ $RESULT_CHARACTER } #{short_urls.join(", ")}"
     end
   end
-  
+
   private
-  
+
   def get_page_title( page_address )
     page_obj = Mechanize.new.get( page_address )
     if page_obj.respond_to?(:title)

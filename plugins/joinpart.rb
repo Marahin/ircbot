@@ -1,11 +1,6 @@
 class JoinPart
   include Cinch::Plugin
-  set :help, <<-EOF
-join (channel)
-  tells cinch to join a (channel)
-part (channel)
-  tells cinch to leave a (channel)
-EOF
+
   match /join (.+)/, method: :join
   match /part(?: (.+))?/, method: :part
 
