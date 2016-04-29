@@ -11,15 +11,9 @@ require "#{ ROOT_PATH }/lib/setup_environment"
     # c.server = 'irc.freenode.net'
     # due to freenodes loadbalancing being shit, setting it to static IP
     c.server = $config[:bot][:server]
-    # If you use SSL, write like this
     c.ssl.use = $config[:bot][:use_ssl]
-    # IRC Server port
     c.port = $config[:bot][:port]
-    # IRC Server Password
-    # c.password = "password"
-    # Channel name & password
     c.channels = $config[:bot][:channels]
-    # bot nick name and real name
     c.nick = $config[:bot][:nick]
     c.realname = $config[:bot][:realname]
     c.user = $config[:bot][:user]
