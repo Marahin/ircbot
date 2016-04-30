@@ -1,12 +1,13 @@
 class HelpObj
   def initialize
     @plugins = Array.new
+    @plugins.extend(MultithreadedEach)
   end
 
   def commands
-    commands = Array.new
-    @plugins.each do |plugin|
-      plugin[:commands].each do |command|
+    commands = Array.new.extend(MultithreadedEach)
+    @plugins.multithreaded_each do |plugin|
+      plugin[:commands].multithreaded_each do |command|
         commands.push( command )
       end
     end
@@ -19,9 +20,9 @@ class HelpObj
     end
   end
 
-  def add_plugin(name, filename)
+  def add_plugin(name, filename, description = nil)
     @plugins.push(
-      {:plugin => name, :filename => filename, :commands => [] }
+      {:plugin => name, :filename => filename, :description => description, :commands => Array.new.extend(MultithreadedEach)}
     )
   end
 
@@ -31,6 +32,12 @@ class HelpObj
       val.push({ :plugin => plugin[:plugin], :filename => plugin[:filename] })
     end
     return val
+  end
+
+  def plugin_commands(plugin)
+    commands = Array.new
+    plugin = @plugins.find{ |pl| pl == plugin }
+    commands ||= plugin[:commands] || Array.new
   end
 end
 

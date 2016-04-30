@@ -39,15 +39,42 @@ require "#{ ROOT_PATH }/lib/setup_environment"
   helpers do
     def help(m, plugin = nil)
       if plugin.nil?
-        m.reply "#{ $RESULT_CHARACTER } you can do !help plugin command (e.g. !help admins admin), ask for list of plugins (!help plugins) or ask for list of commands (!help commands)."
+        m.reply "#{ $RESULT_CHARACTER }you can do !help plugin command (e.g. !help admins admin), ask for list of plugins (!help plugins) or ask for list of commands (!help commands)."
       else
-        # to be continued
+        plugin_name = plugin.split[0]
+        if plugin.split.size > 1 then
+          command_name = plugin.split[1]
+          arguments = plugin.split[2..(plugin.split.size)]
+        else
+          plugin = Help.plugins.find{ |pl| pl[:plugin] == plugin_name }
+          if plugin
+            plugin_info = "#{ $RESULT_CHARACTER }#{plugin_name} (#{plugin[:filename]})"
+            if plugin[:description]
+              plugin_info += ' - ' + plugin[:description]
+            end
+            plugin_info.last == '.' ? () : (plugin_info += '.')
+            plugin_info += ' Available commands: '
+            commands = Help.plugin_commands(plugin_name) || Array.new
+            commands.size == 0 ? (plugin_info += ' none. Sorry.') : (
+              commands.each do |command|
+                plugin_info += '\n' + '<'+ command[:syntax] + '>' + command[:description]
+              end
+            )
+            m.reply plugin_info
+          else
+            m.reply "#{ $RESULT_CHARACTER }could not find plugin named #{plugin_name}. Do !help plugins if you want to see the list of loaded plugins (and make sure to ask for the plugin name, not the filename, for the future record)."
+          end
+          # help for the given plugin
+        end
       end
       debug "plugin: l #{ plugin.length }, tf #{ plugin ? true : false }, s #{ plugin }"
     end
 
     def hook_plugin(m, plugin)
       return unless ( Object.const_defined?('Admins') ? ( Admins.check_user( m.user ) ) : ( true ))
+      # TODO: .select returns array instead of first element,
+      # so it _should_ PROBABLY be replaced with .find, which returns ONE element
+      # - the one that would be the first in the array.
       real_plugin = $plugins.select{ |arr_plug| arr_plug[:name] == plugin }
       real_plugin = real_plugin.length > 0 ? ( real_plugin[0] ) : ( nil )
       if real_plugin.nil?
