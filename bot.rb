@@ -37,8 +37,13 @@ require "#{ ROOT_PATH }/lib/setup_environment"
   end
 
   helpers do
-    def help(m, plugin)
-      m.reply "plugin: l #{ plugin.length }, tf #{ plugin ? true : false }, s #{ plugin }"
+    def help(m, plugin = nil)
+      if plugin.nil?
+        m.reply "#{ $RESULT_CHARACTER } you can do !help plugin command (e.g. !help admins admin), ask for list of plugins (!help plugins) or ask for list of commands (!help commands)."
+      else
+        # to be continued
+      end
+      debug "plugin: l #{ plugin.length }, tf #{ plugin ? true : false }, s #{ plugin }"
     end
 
     def hook_plugin(m, plugin)
@@ -112,5 +117,5 @@ require "#{ ROOT_PATH }/lib/setup_environment"
   end
 end
 
-#macius.loggers.level = :log
+# macius.loggers.level = :log
 @bot.start
