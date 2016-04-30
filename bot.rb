@@ -32,7 +32,7 @@ require "#{ ROOT_PATH }/lib/setup_environment"
   on :message, /^!reload (.+)/ do |m, plugin|
     reload_plugin(m, plugin)
   end
-  on :message, /^!help(?: (.*))/ do |m, args|
+  on :message, /^!help(?: (.*))?$/ do |m, args|
     help(m, args)
   end
 
