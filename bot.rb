@@ -32,10 +32,15 @@ require "#{ ROOT_PATH }/lib/setup_environment"
   on :message, /^!reload (.+)/ do |m, plugin|
     reload_plugin(m, plugin)
   end
-
-
+  on :message, /^!help(?: (.*))/ do |m, args|
+    help(m, args)
+  end
 
   helpers do
+    def help(m, plugin)
+      m.reply "plugin: l #{ plugin.length }, tf #{ plugin ? true : false }, s #{ plugin }"
+    end
+
     def hook_plugin(m, plugin)
       return unless ( Object.const_defined?('Admins') ? ( Admins.check_user( m.user ) ) : ( true ))
       real_plugin = $plugins.select{ |arr_plug| arr_plug[:name] == plugin }
@@ -96,7 +101,6 @@ require "#{ ROOT_PATH }/lib/setup_environment"
       plugin_class.required_options.clear
 
       m.reply "#{ $RESULT_CHARACTER }Successfully unloaded #{plugin}"
-
     end
 
     def reload_plugin(m, plugin )
@@ -107,10 +111,6 @@ require "#{ ROOT_PATH }/lib/setup_environment"
     end
   end
 end
-
-#help obj
-
-HelpObj.new("macius", "generic bot description")
 
 #macius.loggers.level = :log
 @bot.start
