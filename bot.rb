@@ -80,7 +80,7 @@ require "#{ ROOT_PATH }/lib/setup_environment"
       begin
         plugin_class = Object.const_get(plugin)
       rescue NameError
-        m.reply "#{ $RESULT_CHARACTER } Could not unload #{plugin} because no matching class was found."
+        m.reply "#{ $RESULT_CHARACTER }Could not unload #{plugin} because no matching class was found."
         return
       end
 
