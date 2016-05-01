@@ -1,6 +1,12 @@
 class AdminEval
   include Cinch::Plugin
-  
+
+  Help.add_plugin(self.name, __FILE__, "EVAL function add-on, allowing users to execute code through IRC.")
+  Help.add_command(self.name,
+  "eval m.reply \"it's ruby code!\"",
+  "executes given ruby code. If Admins plugin is loaded, this command is only usable by Admins."
+  )
+
   match /eval (.+)/
   def execute(m, args)
     return unless ( Object.const_defined?('Admins') ? ( Admins.check_user( m.user ) ) : ( false ))

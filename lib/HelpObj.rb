@@ -1,3 +1,5 @@
+Object.const_defined?('MultithreadedEach') ? () : (require_relative 'ModuleThreadedEach';)
+
 class HelpObj
   def initialize
     @plugins = Array.new
@@ -22,22 +24,22 @@ class HelpObj
 
   def add_plugin(name, filename, description = nil)
     @plugins.push(
-      {:plugin => name, :filename => filename, :description => description, :commands => Array.new.extend(MultithreadedEach)}
+      {:plugin => name, :filename => $config[:plugins_path] + File.basename(filename), :description => description, :commands => Array.new.extend(MultithreadedEach)}
     )
   end
 
   def plugins
-    val = Array.new
-    @plugins.each do |plugin|
-      val.push({ :plugin => plugin[:plugin], :filename => plugin[:filename] })
+    val = Array.new.extend(MultithreadedEach)
+    @plugins.multithreaded_each do |plugin|
+      val.push({ :plugin => plugin[:plugin], :filename => $config[:plugins_path] + File.basename(plugin[:filename]), :description => plugin[:description] })
     end
     return val
   end
 
   def plugin_commands(plugin)
     commands = Array.new
-    plugin = @plugins.find{ |pl| pl == plugin }
-    commands ||= plugin[:commands] || Array.new
+    plugin = @plugins.find{ |pl| pl[:plugin].downcase == plugin.downcase }
+    commands = plugin[:commands] || Array.new
   end
 end
 

@@ -4,9 +4,9 @@ class Admins
   $admins = ['marahin']
   match /admins/
 
-  Help.add_plugin(self.name, __FILE__)
+  Help.add_plugin(self.name, __FILE__, "User privilege plugin to maintain various commands.")
   Help.add_command(self.name, "admins", "lists all admins")
-  
+
   def execute( m )
     m.reply "#{ $RESULT_CHARACTER } #{ m.user.nick }, currently admins are: #{ $admins.join(", ") }"
   end

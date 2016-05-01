@@ -1,7 +1,7 @@
 require 'rubygems'
 
 Dir[File.dirname(__FILE__) + '/*.rb'].each do |file|
-  require file if file != __FILE__
+  (puts 'requiring' + file.to_s; require file)if file != __FILE__
 end
 
 # get the config file
@@ -20,5 +20,3 @@ setup_plugins
 
 
 # RUNNING SETUP METHODS #
-
-

@@ -42,7 +42,27 @@ require "#{ ROOT_PATH }/lib/setup_environment"
         m.reply "#{ $RESULT_CHARACTER }you can do !help plugin command (e.g. !help admins admin), ask for list of plugins (!help plugins) or ask for list of commands (!help commands)."
       else
         plugin_name = plugin.split[0]
-        if plugin.split.size > 1 then
+        if plugin_name == "plugins"
+          if Help.plugins.size > 0
+            m.reply "#{$RESULT_CHARACTER}Available plugins:"
+            messages = Array.new
+            Help.plugins.multithreaded_each do |plugin|
+              msg = plugin[:plugin] + '(' + plugin[:filename] + ')'
+              plugin[:description].nil? ? (msg+='.') : (msg+='. ' + plugin[:description])
+              messages.push(msg)
+            end
+            messages.each do |msg|
+              m.reply msg
+            end
+          else
+            m.reply "#{ $RESULT_CHARACTER }there are currently no plugins supporting Help system. Check out the current repository version with example plugins at https://github.com/Marahin/ircbot"
+          end
+        elsif plugin_name == "commands"
+          if Help.commands.size > 0
+          else
+
+          end
+        elsif plugin.split.size > 1 then
           command_name = plugin.split[1]
           arguments = plugin.split[2..(plugin.split.size)]
         else
@@ -52,15 +72,21 @@ require "#{ ROOT_PATH }/lib/setup_environment"
             if plugin[:description]
               plugin_info += ' - ' + plugin[:description]
             end
-            plugin_info.last == '.' ? () : (plugin_info += '.')
+            plugin_info[-1] == '.' ? () : (plugin_info += '.')
             plugin_info += ' Available commands: '
             commands = Help.plugin_commands(plugin_name) || Array.new
-            commands.size == 0 ? (plugin_info += ' none. Sorry.') : (
+            debug Help.plugin_commands(plugin_name).to_s + " -> " + (plugin_name)
+            messages = [ plugin_info ]
+            commands.size == 0 ? (msg[0] += 'none. Sorry.') : (
               commands.each do |command|
-                plugin_info += '\n' + '<'+ command[:syntax] + '>' + command[:description]
+                messages.push(
+                  '< /'+ $config[:plugins_prefix] + command[:syntax] + '/ > ' + command[:description]
+                )
               end
             )
-            m.reply plugin_info
+            messages.each do |msg|
+              m.reply msg
+            end
           else
             m.reply "#{ $RESULT_CHARACTER }could not find plugin named #{plugin_name}. Do !help plugins if you want to see the list of loaded plugins (and make sure to ask for the plugin name, not the filename, for the future record)."
           end
