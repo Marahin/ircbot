@@ -7,6 +7,8 @@ class Gimbus
 
   listen_to :channel
 
+  Help.add_plugin(self.name, __FILE__, "Gimb.us Shortener implementation. Shortens every link sent on every channel.")
+  
   def self.shorten(url)
     unless url.include?( "http://gimb.us/" )
       url = open("http://gimb.us/?url=#{URI.escape(url)}").read()

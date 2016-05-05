@@ -39,9 +39,9 @@ require "#{ ROOT_PATH }/lib/setup_environment"
   helpers do
     def help(m, plugin = nil)
       if plugin.nil?
-        m.reply "#{ $RESULT_CHARACTER }you can do !help plugin command (e.g. !help admins admin), ask for list of plugins (!help plugins) or ask for list of commands (!help commands)."
+        m.reply "#{ $RESULT_CHARACTER }you can do !help plugin command (e.g. !help admins admin), ask for list of plugins (!help plugins) or ask for list of commands (!help commands). You can also ask for list of plugins through !help pluginname (case insensitive)."
       else
-        plugin_name = plugin.split[0]
+        plugin_name = plugin.split[0].downcase
         if plugin_name == "plugins"
           if Help.plugins.size > 0
             m.reply "#{$RESULT_CHARACTER}Available plugins:"
@@ -66,7 +66,7 @@ require "#{ ROOT_PATH }/lib/setup_environment"
           command_name = plugin.split[1]
           arguments = plugin.split[2..(plugin.split.size)]
         else
-          plugin = Help.plugins.find{ |pl| pl[:plugin] == plugin_name }
+          plugin = Help.plugins.find{ |pl| pl[:plugin].downcase == plugin_name }
           if plugin
             plugin_info = "#{ $RESULT_CHARACTER }#{plugin_name} (#{plugin[:filename]})"
             if plugin[:description]

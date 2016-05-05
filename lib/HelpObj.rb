@@ -22,9 +22,14 @@ class HelpObj
     end
   end
 
-  def add_plugin(name, filename, description = nil)
+  def add_plugin(name, filename = __FILE__, description = nil)
     @plugins.push(
-      {:plugin => name, :filename => $config[:plugins_path] + File.basename(filename), :description => description, :commands => Array.new.extend(MultithreadedEach)}
+      {
+        :plugin => name,
+        :filename => filename ? ($config[:plugins_path] + File.basename(filename)) : (__FILE__),
+        :description => description,
+        :commands => Array.new.extend(MultithreadedEach)
+      }
     )
   end
 
@@ -44,3 +49,8 @@ class HelpObj
 end
 
 Help = HelpObj.new
+
+Help.add_plugin("Help", nil, "A set of commands to serve purpose of a realtime manual for users.")
+Help.add_command("Help", "plugins", "Lists available plugins.")
+Help.add_command("Help", "commands", "Lists available commands.")
+Help.add_command("Help", "plugin command", "Explains the syntax and provides a description of given plugin's command.")
