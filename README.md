@@ -56,18 +56,18 @@ __Help system__ is defined in `lib/HelpObj.rb` and loaded during startup. It is 
 
 During startup a class is defined and with it - an object of the class, named `Help`. So, for your own sake: do your best and notice the differece between the class name (`HelpObj`) and the object on which we will work - `Help`.
 
-Help object has an `Array` of `@plugins`, which you can maintain with certain commands (look below). Every plugin has it's own `Array` of commands, which you can also maintain. I try to make it as simple as possible to operate on, however in order to make it as flexible as possible - it might feel clunky at times.
+Help object has an `Array` of `@plugins`, which you can maintain with certain methods (look below). Every plugin has it's own `Array` of commands, which you can also maintain. I try to make it as simple as possible to operate on, however in order to make it as flexible as possible - it might feel clunky at times.
 
 ##### Commands and operating Help
 
 ###### Commands
 
-`Help` object has several commands. Following ones are already used in core of the __bot__:
+`Help` object has several methods. Following ones are already used in core of the __bot__:
 - `Help.commands` - returning an array (extended by `ModuleThreadedEach`) of commands. If no commands are registered, it will return empty array (`Array.new`).
 - `Help.plugins` - returning an array of all the plugins supporting Help system (so the ones that register themselves. If the plugin doesn't register itself to the Help system, it **will not be visible**). The `Array` is extended by `ModuleThreadedEach`. If no plugins are registered, it will return empty array (`Array.new`).
 - `Help.plugin_commands(plugin)` - returning an array of commands for the given plugin name. The array is extended by `ModuleThreadedEach`, unless there's no such plugin - then it will return empty array (`Array.new`) **without the extension**.
 
-and the other ones are used to maintain plugin's Help support. Those are the calls you write in your plugin, so it registers up with the plugin.
+The other ones are used to maintain plugin's Help support. Those are the calls you use in your plugin, so it registers in the __Help System__.
 - `Help.add_plugin(name, filepath, description)` - registering the plugin in __Help system__, allowing it to recognize the plugin.
 - `Help.add_command(plugin_name, syntax, description)` - registering a command under the given plugin, with given syntax and description, allowing Help system to serve it to the users.
 
@@ -78,6 +78,8 @@ Help.add_plugin(self.name, __FILE__, "User privilege plugin to maintain various 
 Help.add_command(self.name, "admins", "lists all admins")
 (...)
 ```
+
+As you can see from the example, `add_plugin`'s name attribute (or `add_command`'s plugin_name) is the **class name** of the plugin.
 
 ###### Operating Help
 
