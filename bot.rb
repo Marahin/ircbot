@@ -18,7 +18,7 @@ require "#{ ROOT_PATH }/lib/setup_environment"
     c.realname = $config[:bot][:realname]
     c.user = $config[:bot][:user]
     c.plugins.prefix = Regexp.new( $config[:plugins_prefix] )
-    c.plugins.plugins = $plugins.map{ |plugin| Object.const_get(plugin[:name])}
+    c.plugins.plugins = $plugins.map{ |plugin| Object.const_get(plugin[:name])} unless $plugins.nil?
     puts "Loading #{ $plugins }"
   end
   ## END OF BOT SETUP ##
@@ -59,8 +59,15 @@ require "#{ ROOT_PATH }/lib/setup_environment"
           end
         elsif plugin_name == "commands"
           if Help.commands.size > 0
+            msg = Array.new
+            msg.push("#{ $RESULT_CHARACTER }commands supporting Help system:")
+            Help.commands.each do |command|
+              # command[:syntax]
+              # command[:description]
+              msg.push('/'+ $config[:plugins_prefix] + command[:syntax] + '/')
+            end
           else
-
+            m.reply "#{ $RESULT_CHARACTER }there are currently 0 registered commands. You can check what plugins (with Help support) are loaded by typing " + '/'+ $config[:plugins_prefix] + command[:syntax] + '/help plugins.'
           end
         elsif plugin.split.size > 1 then
           command_name = plugin.split[1]
@@ -141,6 +148,8 @@ require "#{ ROOT_PATH }/lib/setup_environment"
         m.reply "#{ $RESULT_CHARACTER }Could not unload #{plugin} because no matching class was found."
         return
       end
+
+      return unless @bot.plugins.size > 0
 
       @bot.plugins.select {|p| p.class == plugin_class}.each do |p|
         @bot.plugins.unregister_plugin(p)
