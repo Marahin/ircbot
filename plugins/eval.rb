@@ -20,12 +20,10 @@ class AdminEval
           else
             m.reply "#{ $RESULT_CHARACTER } nil. I'm sorry."
           end
-        # Something that should be interrupted if it takes more than 5  seconds...
       end
     rescue Timeout::Error
         m.reply "#{ $RESULT_CHARACTER } #{ m.user.nick }, you have done something evil, and the thread just crashed or zombie'd. Calling admins now."
         Object.const_defined?('Admins') ? (m.reply "#{ $RESULT_CHARACTER } #{ $admins.join(", ")} - PLEASE HELP.") : ()
     end
   end
-
 end
