@@ -100,7 +100,6 @@ require "#{ ROOT_PATH }/lib/setup_environment"
           # help for the given plugin
         end
       end
-      debug "plugin: l #{ plugin.length }, tf #{ plugin ? true : false }, s #{ plugin }"
     end
 
     def hook_plugin(m, plugin)

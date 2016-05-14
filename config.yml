@@ -1,10 +1,10 @@
 ---
 :bot:
-  :server: '91.217.189.42'
+  :server: 'netsplit.pirc.pl'
   :use_ssl: false
   :port: '6667'
   :channels:
-  - '#3lab-news'
+  - '#s.m.s-testbot'
   :nick: 'm4ciu5_97'
   :realname: 'http://marahin.pl/'
   :user: 'macius'
