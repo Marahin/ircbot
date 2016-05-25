@@ -23,6 +23,8 @@
     :name: 'JoinPart'
   - :file: 'shortener.rb'
     :name: 'Gimbus'
+  - :file: 'ipv6excuse.rb'
+    :name: 'ipv6Excuse'
 :plugins_path: 'plugins/'
 :plugins_prefix: '^!'
 
